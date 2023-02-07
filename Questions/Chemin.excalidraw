@@ -1,0 +1,331 @@
+{
+  "type": "excalidraw",
+  "version": 2,
+  "source": "https://excalidraw.com",
+  "elements": [
+    {
+      "id": "KgNe5qYqFtTaFfY-6ynJQ",
+      "type": "rectangle",
+      "x": 929,
+      "y": 123,
+      "width": 297,
+      "height": 235,
+      "angle": 0,
+      "strokeColor": "#000000",
+      "backgroundColor": "#868e96",
+      "fillStyle": "hachure",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "roundness": {
+        "type": 3
+      },
+      "seed": 1226642058,
+      "version": 332,
+      "versionNonce": 45653014,
+      "isDeleted": false,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "7gvlUDN7qphFcvEDxqhQz"
+        },
+        {
+          "id": "Y7m30pvsxW0o-AWpOXZZO",
+          "type": "arrow"
+        },
+        {
+          "id": "TAWn60TzXsjUP_3ZKNn7P",
+          "type": "arrow"
+        }
+      ],
+      "updated": 1675763849833,
+      "link": null,
+      "locked": false
+    },
+    {
+      "id": "7gvlUDN7qphFcvEDxqhQz",
+      "type": "text",
+      "x": 934.5,
+      "y": 128,
+      "width": 286,
+      "height": 225,
+      "angle": 0,
+      "strokeColor": "#000000",
+      "backgroundColor": "transparent",
+      "fillStyle": "hachure",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "roundness": null,
+      "seed": 909224458,
+      "version": 512,
+      "versionNonce": 699829834,
+      "isDeleted": false,
+      "boundElements": null,
+      "updated": 1675763634994,
+      "link": null,
+      "locked": false,
+      "text": "Vous êtes co-pilote d'avion \npour une entreprise de \nlivraison, et votre avion se \ncrashe sur une île déserte.\nVous êtes sur la plage et \ndevant vous se trouve les \nrestes de l'avion et des \ncentaines de colis tombés de\nla soute. 2 choix possibles.",
+      "fontSize": 20,
+      "fontFamily": 1,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "baseline": 218,
+      "containerId": "KgNe5qYqFtTaFfY-6ynJQ",
+      "originalText": "Vous êtes co-pilote d'avion pour une entreprise de livraison, et votre avion se crashe sur une île déserte.\nVous êtes sur la plage et devant vous se trouve les restes de l'avion et des centaines de colis tombés de la soute. 2 choix possibles."
+    },
+    {
+      "id": "Y7m30pvsxW0o-AWpOXZZO",
+      "type": "arrow",
+      "x": 968.8992372090286,
+      "y": 380.10169491525426,
+      "width": 42.62131128753754,
+      "height": 47.08509116171149,
+      "angle": 0,
+      "strokeColor": "#000000",
+      "backgroundColor": "#868e96",
+      "fillStyle": "hachure",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "roundness": {
+        "type": 2
+      },
+      "seed": 428827350,
+      "version": 923,
+      "versionNonce": 851829962,
+      "isDeleted": false,
+      "boundElements": null,
+      "updated": 1675763704284,
+      "link": null,
+      "locked": false,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          -42.62131128753754,
+          47.08509116171149
+        ]
+      ],
+      "lastCommittedPoint": null,
+      "startBinding": {
+        "elementId": "KgNe5qYqFtTaFfY-6ynJQ",
+        "focus": -0.06228551604279586,
+        "gap": 22.101694915254257
+      },
+      "endBinding": {
+        "elementId": "X6p57BaNv6a4S49me399q",
+        "focus": 0.24881480418905988,
+        "gap": 18.851385308660866
+      },
+      "startArrowhead": null,
+      "endArrowhead": "arrow"
+    },
+    {
+      "id": "X6p57BaNv6a4S49me399q",
+      "type": "ellipse",
+      "x": 702,
+      "y": 409,
+      "width": 241,
+      "height": 185,
+      "angle": 0,
+      "strokeColor": "#000000",
+      "backgroundColor": "#228be6",
+      "fillStyle": "hachure",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "roundness": {
+        "type": 2
+      },
+      "seed": 463655190,
+      "version": 451,
+      "versionNonce": 876616214,
+      "isDeleted": false,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "CNmRLvOaXpAzBFx7n_dfP"
+        },
+        {
+          "id": "Y7m30pvsxW0o-AWpOXZZO",
+          "type": "arrow"
+        }
+      ],
+      "updated": 1675763718842,
+      "link": null,
+      "locked": false
+    },
+    {
+      "id": "CNmRLvOaXpAzBFx7n_dfP",
+      "type": "text",
+      "x": 714,
+      "y": 451.5,
+      "width": 217,
+      "height": 100,
+      "angle": 0,
+      "strokeColor": "#000000",
+      "backgroundColor": "#868e96",
+      "fillStyle": "hachure",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "roundness": null,
+      "seed": 1417650582,
+      "version": 427,
+      "versionNonce": 1342518794,
+      "isDeleted": false,
+      "boundElements": null,
+      "updated": 1675763704284,
+      "link": null,
+      "locked": false,
+      "text": "Vous choisissez de \nfouiller le corps du \npilote pour récupérer \ndes objets",
+      "fontSize": 20,
+      "fontFamily": 1,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "baseline": 93,
+      "containerId": "X6p57BaNv6a4S49me399q",
+      "originalText": "Vous choisissez de fouiller le corps du pilote pour récupérer des objets"
+    },
+    {
+      "type": "ellipse",
+      "version": 520,
+      "versionNonce": 1959155146,
+      "isDeleted": false,
+      "id": "nKhNRonERpEJvoS4d4ruA",
+      "fillStyle": "hachure",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "angle": 0,
+      "x": 1174.5,
+      "y": 416.5,
+      "strokeColor": "#000000",
+      "backgroundColor": "#228be6",
+      "width": 241,
+      "height": 185,
+      "seed": 226287882,
+      "groupIds": [],
+      "roundness": {
+        "type": 2
+      },
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "JWwuWVbDXGPpS0pXpNMf9"
+        },
+        {
+          "id": "TAWn60TzXsjUP_3ZKNn7P",
+          "type": "arrow"
+        }
+      ],
+      "updated": 1675763860855,
+      "link": null,
+      "locked": false
+    },
+    {
+      "type": "text",
+      "version": 530,
+      "versionNonce": 1640645590,
+      "isDeleted": false,
+      "id": "JWwuWVbDXGPpS0pXpNMf9",
+      "fillStyle": "hachure",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "angle": 0,
+      "x": 1184,
+      "y": 446.5,
+      "strokeColor": "#000000",
+      "backgroundColor": "#868e96",
+      "width": 222,
+      "height": 125,
+      "seed": 1040518294,
+      "groupIds": [],
+      "roundness": null,
+      "boundElements": null,
+      "updated": 1675763860855,
+      "link": null,
+      "locked": false,
+      "fontSize": 20,
+      "fontFamily": 1,
+      "text": "Vous choisissez de \nfouiller les colis \néparpillés sur la plage\npour récupérer des \nobjets",
+      "baseline": 118,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "nKhNRonERpEJvoS4d4ruA",
+      "originalText": "Vous choisissez de fouiller les colis éparpillés sur la plage pour récupérer des objets"
+    },
+    {
+      "type": "arrow",
+      "version": 1142,
+      "versionNonce": 1858033942,
+      "isDeleted": false,
+      "id": "TAWn60TzXsjUP_3ZKNn7P",
+      "fillStyle": "hachure",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "angle": 0,
+      "x": 1186.8811275787943,
+      "y": 378.5705701224588,
+      "strokeColor": "#000000",
+      "backgroundColor": "#868e96",
+      "width": 56.932324938023385,
+      "height": 35.48645994584035,
+      "seed": 1110448010,
+      "groupIds": [],
+      "roundness": {
+        "type": 2
+      },
+      "boundElements": null,
+      "updated": 1675763860856,
+      "link": null,
+      "locked": false,
+      "startBinding": {
+        "elementId": "KgNe5qYqFtTaFfY-6ynJQ",
+        "focus": 0.32068789576641793,
+        "gap": 20.570570122458776
+      },
+      "endBinding": {
+        "elementId": "nKhNRonERpEJvoS4d4ruA",
+        "focus": 0.5290474280655292,
+        "gap": 10.624874222030925
+      },
+      "lastCommittedPoint": null,
+      "startArrowhead": null,
+      "endArrowhead": "arrow",
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          56.932324938023385,
+          35.48645994584035
+        ]
+      ]
+    }
+  ],
+  "appState": {
+    "gridSize": null,
+    "viewBackgroundColor": "#ffffff"
+  },
+  "files": {}
+}
