@@ -13,3 +13,6 @@ while True:
         print(current.question)
     else:
         print("Choix invalide, veuillez réessayer")
+    if current.c1 is None and current.c2 is None:
+        print("Fin du jeu")
+        exit()

@@ -12,6 +12,7 @@ class Node:
         else:
             self.c2 = question
 
+
 #EN COURS DE DEVELOPPEMENT
 take_none = Node("Le jeu est pas fini", None, None)
 
@@ -55,11 +56,12 @@ right_choice.setChoice(2, take_none)
 
 
 root = Node(
-    "Vous êtes co-pilote d'avion pour une entreprise de livraison, et votre avion se crashe sur une île déserte. \n\
+    
+    "\n \nVous êtes co-pilote d'avion pour une entreprise de livraison, et votre avion se crashe sur une île déserte. \n\
     Vous êtes sur la plage et devant vous se trouve les restes de l'avion et des centaines de colis tombés de la soute. \n\
     Que faites-vous ? \n\
         [1] Fouiller le corps du pilote pour récupérer des objets \n\
-        [2] Fouiller les colis sur la plage pour récupérer des objets"
+        [2] Fouiller les colis sur la plage pour récupérer des objets \n \n"
 )
 root.setChoice(1, left_choice)
 root.setChoice(2, right_choice)
