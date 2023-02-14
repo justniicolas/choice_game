@@ -1,16 +1,18 @@
 import pygame as pg
 
 class Node:
+    """Classe représentant un noeud de l'arbre de décision"""
     def __init__(self, question: str, c1=None, c2=None):
         self.question = question
         self.c1 = c1
         self.c2 = c2
 
     def setChoice(self, choice, question):
+        """Méthode permettant de définir les choix possibles"""
         if choice == 1:
-            self.c1 = question
+            self.c1 = question # question est un Node
         else:
-            self.c2 = question
+            self.c2 = question # question est un Node
 
 
 #EN COURS DE DEVELOPPEMENT
@@ -63,7 +65,7 @@ root = Node(
         [1] Fouiller le corps du pilote pour récupérer des objets \n\
         [2] Fouiller les colis sur la plage pour récupérer des objets \n \n"
 )
-root.setChoice(1, left_choice)
+root.setChoice(1, left_choice) 
 root.setChoice(2, right_choice)
 
 current: Node = root
