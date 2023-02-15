@@ -15,26 +15,20 @@ take_none = Node("Le jeu est pas fini", None, None)
 
 
 left_choice = Node(
-    "Vous avez trouvé un\n\
-        1. Vous prenez le couteau et la trousse de secours. \n\
-        2. Vous ne prenez rien car cela ne vous intéresse pas."
+    "Vous avez trouvé un 1. Vous prenez le couteau et la trousse de secours. 2. Vous ne prenez rien car cela ne vous intéresse pas."
 )
 left_choice.setChoice(1, take_none)
 left_choice.setChoice(2, take_none)
 # Histoire si choix = 2
 
 right_choice = Node(
-    "Vous prenez \n\
-        [1] Vous prenez le matériel pour faire un abri de survie. \n\
-        [2] Vous ne prenez rien car cela ne vous intéresse pas."
+    "Vous prenez [1] Vous prenez le matériel pour faire un abri de survie.[2] Vous ne prenez rien car cela ne vous intéresse pas."
 )
 right_choice.setChoice(1, take_none)
 right_choice.setChoice(2, take_none)
 root = Node(
     
-    "\n \nVous êtes co-pilote \n\
-        [1] Fouiller le corps du pilote pour récupérer des objets \n\
-        [2] Fouiller les colis sur la plage pour récupérer des objets \n \n"
+    "Vous êtes co-pilote [1]Fouiller le corps du pilote pour récupérer des objets [2]Fouiller les colis sur la plage pour récupérer des objets"
 )
 root.setChoice(1, left_choice) 
 root.setChoice(2, right_choice)
@@ -81,6 +75,55 @@ button_right = pg.Rect(button_x, button_y + button_height + button_margin, butto
 text_right = font.render("Choix 2", True, WHITE)
 text_rect_right = text_right.get_rect(center=button_right.center) # Création du rectangle englobant
 
+# Bouton pour démarrer le jeu
+button_start = pg.Rect(button_x, button_y, button_width, button_height)
+text_start = font.render("Commencer le jeu", True, WHITE)
+text_rect_start = text_start.get_rect(center=button_start.center)
+
+# Bouton pour quitter le jeu
+button_quit = pg.Rect(button_x, button_y + button_height + button_margin, button_width, button_height)
+text_quit = font.render("Quitter le jeu", True, WHITE)
+text_rect_quit = text_quit.get_rect(center=button_quit.center)
+
+# Variable pour stocker le choix de l'utilisateur
+menu_choice = None
+
+# Boucle d'événements pour le menu
+while menu_choice is None:
+    for event in pg.event.get():
+        # Gestion de la fermeture de la fenêtre
+        if event.type == pg.QUIT:
+            menu_choice = "quit"
+
+        # Gestion des clics de souris
+        if event.type == pg.MOUSEBUTTONDOWN:
+            mouse_pos = event.pos
+
+            # Si le bouton pour démarrer le jeu est cliqué
+            if button_start.collidepoint(mouse_pos):
+                menu_choice = "start"
+
+            # Si le bouton pour quitter le jeu est cliqué
+            elif button_quit.collidepoint(mouse_pos):
+                menu_choice = "quit"
+
+    # Couleur de fond de la fenêtre
+    window.fill(GRAY)
+
+    # Affichage des boutons
+    pg.draw.rect(window, DARK_GRAY, button_start)
+    window.blit(text_start, text_rect_start)
+
+    pg.draw.rect(window, DARK_GRAY, button_quit)
+    window.blit(text_quit, text_rect_quit)
+
+    # Mise à jour de la fenêtre
+    pg.display.flip()
+
+# Si l'utilisateur a choisi de quitter le jeu dans le menu, on sort du programme
+if menu_choice == "quit":
+    pg.quit()
+    exit()
 # Boucle d'événements
 running = True
 while running:
@@ -106,30 +149,34 @@ while running:
     # Couleur de fond de la fenêtre
     window.fill(GRAY)
 
+    #methode permettant de couper la question en plusieurs lignes
     def wrap_text(text, font, max_width):
-        """Méthode permettant de découper un texte en plusieurs lignes si sa longueur dépasse max_width"""
-        words = text.split(' ')
         lines = []
-        current_line = words[0]
-        for word in words[1:]:
-            if font.size(current_line + ' ' + word)[0] <= max_width: # Si la longueur du texte actuel + le mot actuel est inférieure à max_width
-                current_line += ' ' + word
-            else:
-                lines.append(current_line)
-                current_line = word
-        lines.append(current_line)
-        return '\n'.join(lines)
+        if font.size(text)[0] <= max_width:
+            lines.append(text)
+        else:
+            words = text.split(' ')
+            i = 0
+            while i < len(words):
+                line = ''
+                while i < len(words) and font.size(line + words[i])[0] <= max_width:
+                    line = line + words[i] + " "
+                    i += 1
+                if not line:
+                    line = words[i]
+                    i += 1
+                lines.append(line)
+        return lines
 
-    # Création de l'objet text_question pour afficher la question actuelle
-    text_question = font.render(wrap_text(current.question, font, WINDOW_WIDTH), True, BLACK)
-
-
-    # Calcul du rectangle englobant de text_question pour centrer le texte sur la fenêtre
-    text_rect_question = text_question.get_rect() # Création du rectangle englobant
-    text_rect_question.center = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 4)  # Centrage du rectangle englobant
-
-    # Affichage de text_question sur la fenêtre
-    window.blit(text_question, text_rect_question)  
+    #affcihage de la question
+    lines = wrap_text(current.question, font, 500)
+    y_text = button_y - 100
+    for line in lines:
+        text = font.render(line, True, WHITE)
+        text_rect = text.get_rect(center=(WINDOW_WIDTH / 2, y_text))
+        window.blit(text, text_rect)
+        y_text += 30
+    
 
     # Affichage des boutons
     pg.draw.rect(window, DARK_GRAY, button_left)
