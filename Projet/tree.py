@@ -32,7 +32,7 @@ construire_abri_choice = Node("Vous prenez le matériel et vous vous mettez à c
         [2] Vous allez vers la forêt pour explorer l'ile mais vous oubliez votre sac.\n\ "
 )
 construire_abri_choice.setChoice(1, take_mer_poisson)
-construire_abri_choice.setChoice(2, take_take_foret)
+construire_abri_choice.setChoice(2, take_none)
 
 recherche_choice= Node(
     "Vous partez à la recherche de ressources. Après avoir marché un moment, vous tombez sur un cours d'eau et décidez de vous installer pour la nuit. La nuit se passe sans encombre et le lendemain, vous reprenez votre exploration. En chemin, vous trouvez une baie remplie de coquillages et décidez de vous arrêter pour en récolter."
