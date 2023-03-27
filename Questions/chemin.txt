@@ -1,0 +1,19 @@
+
+├─ [1] left_choice
+│  ├─ [1] take_knife_medkit
+│  │  ├─ [1] search_water
+│  │  │  ├─ [1] None
+│  │  │  └─ [2] None
+│  │  └─ [2] create_distress_signal
+│  │     ├─ [1] None
+│  │     └─ [2] None
+│  └─ [2] None
+└─ [2] right_choice
+   ├─ [1] take_shelter_material
+   │  ├─ [1] build_shelter_beach
+   │  │  ├─ [1] None
+   │  │  └─ [2] None
+   │  └─ [2] explore_island
+   │     ├─ [1] None
+   │     └─ [2] None
+   └─ [2] None
