@@ -1,7 +1,9 @@
 class Node:
-    def __init__(self, text):
+    def __init__(self, text, update_life=0, update_inventory=None):
         self.text = text
         self.choices = {}
+        self.update_life = update_life
+        self.update_inventory = update_inventory or {}
 
     def setChoice(self, choice_number, next_node):
         self.choices[choice_number] = next_node
@@ -12,120 +14,190 @@ class Node:
     def getNextNode(self, choice_number):
         return self.choices.get(choice_number, None)
 
+    def apply_changes(self, life, inventory):
+        life += self.update_life
+        for item, count in self.update_inventory.items():
+            inventory[item] = inventory.get(item, 0) + count
+            if inventory[item] <= 0:
+                del inventory[item]
+        return life, inventory
+
 # Final nodes
 end_node = Node("Fin de l'histoire.")
 escape_node = Node("Félicitations ! Vous avez réussi à quitter l'île et vous êtes sauvé. Fin de l'histoire.")
 
-# Branches de l'histoire
+
 build_raft = Node(
-    "Vous décidez de construire un radeau pour quitter l'île. \n\
+    "Vous avez rassemblé les matériaux nécessaires pour construire un radeau, mais il y a un problème. \n\
+    L'île semble être entourée de requins. \n\
     Que faites-vous ? \n\
-        [1] Vous cherchez des matériaux pour construire votre radeau. \n\
-        [2] Vous essayez de trouver un autre moyen de quitter l'île."
+        [1] Vous construisez un radeau solide et tentez de naviguer en évitant les requins. \n\
+        [2] Vous abandonnez l'idée du radeau et cherchez d'autres moyens de quitter l'île."
 )
-build_raft.setChoice(1, escape_node)
-build_raft.setChoice(2, end_node)
 
+
+signal_fire = Node(
+    "Vous avez réussi à allumer un feu de détresse, mais la pluie commence à tomber. \n\
+    Que faites-vous ? \n\
+        [1] Vous protégez le feu avec votre corps et espérez que l'avion vous voit. \n\
+        [2] Vous abandonnez le feu et essayez de trouver un autre moyen de signaler votre présence."
+)
+
+
+climbing_mountain = Node(
+    "Vous décidez de gravir la montagne pour avoir une meilleure vue de l'île et chercher un moyen de quitter l'île. \n\
+    Que faites-vous ? \n\
+        [1] Vous escaladez la montagne avec précaution, en utilisant tout votre équipement. \n\
+        [2] Vous décidez que l'escalade est trop risquée et cherchez un autre moyen de quitter l'île."
+)
 rescue_plane = Node(
-    "Vous apercevez un avion de sauvetage à l'horizon. \n\
+    "Vous apercevez un avion de secours au loin. \n\
     Que faites-vous ? \n\
-        [1] Vous allumez un feu de détresse pour attirer l'attention de l'avion. \n\
-        [2] Vous agitez les bras pour essayer d'attirer l'attention de l'avion."
+        [1] Vous utilisez un miroir pour refléter la lumière du soleil et attirer l'attention de l'avion. \n\
+        [2] Vous allumez un feu de détresse sur la plage pour signaler votre présence."
 )
-rescue_plane.setChoice(1, escape_node)
-rescue_plane.setChoice(2, end_node)
 
+wild_animal_encounter  = Node(
+    "Vous êtes confronté à un animal sauvage, et votre couteau se brise pendant le combat. \n\
+    Que faites-vous ? \n\
+        [1] Vous utilisez vos compétences en arts martiaux pour combattre l'animal. \n\
+        [2] Vous essayez de fuir et de trouver un endroit sûr pour vous cacher."
+)
 meet_other_survivors = Node(
     "Vous rencontrez d'autres survivants sur l'île. \n\
     Que faites-vous ? \n\
         [1] Vous décidez de travailler ensemble pour trouver un moyen de quitter l'île. \n\
         [2] Vous continuez à explorer l'île seul."
 )
-meet_other_survivors.setChoice(1, build_raft)
-meet_other_survivors.setChoice(2, rescue_plane)
-
-wild_animal_encounter = Node(
-    "Vous tombez nez à nez avec un animal sauvage ! \n\
-    Que faites-vous ? \n\
-        [1] Vous essayez de vous défendre avec votre couteau. \n\
-        [2] Vous grimpez dans un arbre pour échapper à l'animal."
-)
-wild_animal_encounter.setChoice(1, meet_other_survivors)
-wild_animal_encounter.setChoice(2, rescue_plane)
 
 discover_cave = Node(
-    "Vous découvrez une mystérieuse grotte. \n\
+    "Vous découvrez une mystérieuse grotte qui semble mener à un réseau souterrain. \n\
     Que faites-vous ? \n\
-        [1] Vous explorez la grotte. \n\
-        [2] Vous décidez de ne pas entrer dans la grotte et de continuer à explorer l'île."
-)
-discover_cave.setChoice(1, wild_animal_encounter)
-discover_cave.setChoice(2, rescue_plane)
-
-find_map = Node(     
-    "Vous trouvez une carte qui semble indiquer la présence d'un trésor caché. \n\
-    Que faites-vous ? \n\
-        [1] Vous suivez la carte à la recherche du trésor. \n\
-        [2] Vous ignorez la carte et continuez à chercher."
+        [1] Vous explorez prudemment le réseau souterrain, en suivant les marques laissées par d'autres explorateurs. \n\
+        [2] Vous décidez que le réseau souterrain est trop dangereux et continuez à chercher un moyen de quitter l'île."
 )
 
-find_map.setChoice(1, discover_cave)
-find_map.setChoice(2, meet_other_survivors)
+
+find_map = Node(
+    "Vous trouvez une carte qui semble indiquer la présence d'un trésor caché, mais elle est partiellement détruite. \n\
+    Que faites-vous ? \n\
+        [1] Vous essayez de déchiffrer la carte et de suivre les indices restants. \n\
+        [2] Vous ignorez la carte et continuez à chercher un moyen de quitter l'île."
+)
+
 
 explore_island = Node(
-    "Vous décidez d'explorer l'île. \n\
+    "Vous décidez d'explorer l'île, mais vous découvrez que le terrain est difficile et dangereux. \n\
     Que faites-vous ? \n\
-        [1] Vous partez en direction de la forêt. \n\
-        [2] Vous suivez la plage pour explorer les environs."
+        [1] Vous partez en direction de la forêt, en affrontant les dangers qui s'y trouvent. \n\
+        [2] Vous suivez la plage pour explorer les environs, en évitant les zones dangereuses."
+        
 )
-explore_island.setChoice(1, find_map)
-explore_island.setChoice(2, wild_animal_encounter)
+
 
 build_shelter = Node(
-    "Vous décidez de construire un abri pour vous protéger. \n\
+
+    "Vous décidez de construire un abri pour vous protéger, mais vous vous rendez compte que les matériaux sont limités. \n\
     Que faites-vous ensuite ? \n\
-        [1] Vous partez à la recherche de nourriture. \n\
-        [2] Vous explorez l'île pour en savoir plus sur votre situation."
+        [1] Vous partez à la recherche de nourriture, en prenant des risques pour trouver des ressources. \n\
+        [2] Vous explorez l'île pour en savoir plus sur votre situation, malgré les dangers potentiels."
 )
-build_shelter.setChoice(1, meet_other_survivors)
-build_shelter.setChoice(2, explore_island)
+
 
 root = Node(
     "\n \nVous êtes co-pilote d'avion pour une entreprise de livraison, et votre avion se crashe sur une île déserte. \n\
     Vous êtes sur la plage et devant vous se trouve les restes de l'avion et des centaines de colis tombés de la soute. \n\
     Que faites-vous ? \n\
         [1] Fouiller le corps du pilote pour récupérer des objets \n\
-        [2] Fouiller les colis sur la plage pour récupérer des objets \n"
+        [2] Fouiller les colis sur la plage pour récupérer des objets \n",
+        
 )
+
+# Liaison des choix
 root.setChoice(1, build_shelter)
 root.setChoice(2, explore_island)
 
-def display_story(node):
+build_shelter.setChoice(1, meet_other_survivors)
+build_shelter.setChoice(2, explore_island)
+
+explore_island.setChoice(1, find_map)
+explore_island.setChoice(2, wild_animal_encounter)
+
+find_map.setChoice(1, discover_cave)
+find_map.setChoice(2, meet_other_survivors)
+
+discover_cave.setChoice(1, wild_animal_encounter)
+discover_cave.setChoice(2, signal_fire)
+
+wild_animal_encounter.setChoice(1, meet_other_survivors)
+wild_animal_encounter.setChoice(2, rescue_plane)
+
+meet_other_survivors.setChoice(1, build_raft)
+meet_other_survivors.setChoice(2, rescue_plane)
+
+rescue_plane.setChoice(1, escape_node)
+rescue_plane.setChoice(2, end_node)
+
+build_raft.setChoice(1, escape_node)
+build_raft.setChoice(2, end_node)
+
+signal_fire.setChoice(1, escape_node)
+signal_fire.setChoice(2, end_node)
+
+# Ajout d'objets aux noeuds
+root.update_inventory = {"montre": 1, "couteau": 1}
+build_shelter.update_inventory = {"bois": 5, "corde": 2, "nourriture": 10}
+build_shelter.update_life = -10
+explore_island.update_inventory = {"boussole": 1}
+find_map.update_inventory = {"carte_au_tresor": 1}
+discover_cave.update_inventory = {"torche": 1}
+wild_animal_encounter.update_inventory = {"couteau": 1}
+meet_other_survivors.update_inventory = {"nourriture": -4, "chaussures": 2}
+meet_other_survivors.update_life = 5
+rescue_plane.update_inventory = {"miroir": 1}
+build_raft.update_inventory = {"bois": 10, "corde": 5, "voile": 1}
+
+
+
+def display_story(node, life, inventory):
     while node is not None:
         print(node.getText())
+        print(f"\nVie: {life}")
+        print(f"Inventaire: {inventory}")
+        
+        if life <= 0:
+            print("Vous n'avez plus de vie. Fin de l'histoire.")
+            break
         choice = int(input("Entrez le numéro de votre choix: "))
+        life, inventory = node.apply_changes(life, inventory)
         node = node.getNextNode(choice)
 
-if __name__ == "__main__":
-    display_story(root)
-    
-
-    
-# add: tree size and height 
-def tree_size_height(node):
+# Fonction pour calculer la taille et la hauteur de l'arbre
+def tree_size_height_arity(node):
     if node is None:
-        return 0, 0
+        return 0, 0, 0
 
     max_height = 0
     total_size = 1
+    max_arity = len(node.choices)
 
     for _, child_node in node.choices.items():
-        child_size, child_height = tree_size_height(child_node)
+        child_size, child_height, child_arity = tree_size_height_arity(child_node)
         total_size += child_size
         max_height = max(max_height, child_height)
+        max_arity = max(max_arity, child_arity)
 
-    return total_size, max_height + 1
+    return total_size, max_height + 1, max_arity
+
+# Calcul et affichage de la taille, la hauteur et l'arité de l'arbre
+size, height, arity = tree_size_height_arity(root)
+print(f"La taille de l'arbre est {size}, sa hauteur est {height} et son arité est {arity}.\n")
 
 
-size, height = tree_size_height(root)
-print(f"La taille de l'arbre est {size} et sa hauteur est {height}.")
+# Initialisez la vie et l'inventaire
+initial_life = 100
+initial_inventory = {}
+
+# Lancement de l'histoire
+if __name__ == "__main__":
+    display_story(root, initial_life, initial_inventory)
