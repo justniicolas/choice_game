@@ -1,29 +1,53 @@
 class Node:
+    ''' Classe représentant un noeud de l'arbre de décision. '''
     def __init__(self, text, update_life=0, update_inventory=None):
+        ''' Constructeur de la classe Node. '''
         self.text = text
         self.choices = {}
         self.update_life = update_life
-        self.update_inventory = update_inventory or {}
+        self.update_inventory = update_inventory or {} 
 
     def setChoice(self, choice_number, next_node):
-        self.choices[choice_number] = next_node
+        ''' Ajoute un choix à la liste des choix possibles. '''
+        self.choices[choice_number] = next_node #
 
     def getText(self):
+        ''' Retourne le texte du noeud. '''
         return self.text
 
     def getNextNode(self, choice_number):
+        ''' Retourne le noeud suivant en fonction du choix de l'utilisateur. '''
         return self.choices.get(choice_number, None)
 
     def apply_changes(self, life, inventory):
-        life += self.update_life
+        ''' Applique les changements de vie et d'inventaire. '''
+        life += self.update_life 
+        life = min(life, 100)  
         for item, count in self.update_inventory.items():
             inventory[item] = inventory.get(item, 0) + count
             if inventory[item] <= 0:
                 del inventory[item]
         return life, inventory
+    
+    def is_valid_choice(self, choice_number):
+        ''' Retourne True si le choix est valide, False sinon. '''
+        return choice_number in self.choices
+    
+def get_user_choice():
+    '''Demande à l'utilisateur de choisir un numéro de choix et le retourne.'''
+    while True:
+        try:
+            choice = int(input("Entrez le numéro de votre choix: "))
+            if choice in [1, 2]: 
+                return choice
+            else:
+                print("Erreur : Veuillez entrer 1 ou 2.")
+        except ValueError: 
+            print("Erreur : Veuillez entrer un nombre entier.")
+
 
 # Final nodes
-end_node = Node("Fin de l'histoire.")
+end_node = Node("Fin de l'histoire. Vous êtes mort.")
 escape_node = Node("Félicitations ! Vous avez réussi à quitter l'île et vous êtes sauvé. Fin de l'histoire.")
 
 
@@ -160,7 +184,9 @@ build_raft.update_inventory = {"bois": 10, "corde": 5, "voile": 1}
 
 
 def display_story(node, life, inventory):
+    '''Affiche l'histoire en fonction des choix de l'utilisateur'''
     while node is not None:
+        exit == False
         print(node.getText())
         print(f"\nVie: {life}")
         print(f"Inventaire: {inventory}")
@@ -168,12 +194,18 @@ def display_story(node, life, inventory):
         if life <= 0:
             print("Vous n'avez plus de vie. Fin de l'histoire.")
             break
-        choice = int(input("Entrez le numéro de votre choix: "))
+        if node == end_node or node == escape_node:
+            break
+        choice = get_user_choice()
+        while not node.is_valid_choice(choice):  
+            print("Erreur : choix non valide. Veuillez entrer un numéro d'option valide.")
+            choice = get_user_choice()
         life, inventory = node.apply_changes(life, inventory)
         node = node.getNextNode(choice)
 
-# Fonction pour calculer la taille et la hauteur de l'arbre
+
 def tree_size_height_arity(node):
+    '''Retourne la taille, la hauteur et l'arité de l'arbre'''
     if node is None:
         return 0, 0, 0
 
@@ -195,7 +227,7 @@ print(f"La taille de l'arbre est {size}, sa hauteur est {height} et son arité e
 
 
 # Initialisez la vie et l'inventaire
-initial_life = 100
+initial_life = 50 
 initial_inventory = {}
 
 # Lancement de l'histoire
