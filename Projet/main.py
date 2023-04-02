@@ -1,30 +1,35 @@
 import webbrowser
 
+
 class Node:
-    ''' Classe représentant un noeud de l'arbre de décision. '''
+    """Classe représentant un noeud de l'arbre de décision."""
 
     def __init__(self, text, update_life=0, update_inventory=None):
-        ''' Constructeur de la classe Node. '''
+        """Constructeur de la classe Node."""
         self.text = text
         self.choices = {}
         self.update_life = update_life
         self.update_inventory = update_inventory or {}
 
     def setChoice(self, choice_number, next_node):
-        ''' Ajoute un choix à la liste des choix possibles. '''
-        self.choices[choice_number] = next_node  # On ajoute le choix à la liste des choix possibles
+        """Ajoute un choix à la liste des choix possibles."""
+        self.choices[
+            choice_number
+        ] = next_node  # On ajoute le choix à la liste des choix possibles
 
     def getText(self):
-        ''' Retourne le texte du noeud. '''
+        """Retourne le texte du noeud."""
         return self.text  # On retourne le texte du noeud
 
     def getNextNode(self, choice_number):
-        ''' Retourne le noeud suivant en fonction du choix de l'utilisateur. '''
+        """Retourne le noeud suivant en fonction du choix de l'utilisateur."""
         return self.choices.get(choice_number, None)
 
     def apply_changes(self, life, inventory):
-        ''' Applique les changements de vie et d'inventaire. '''
-        life += self.update_life  # On ajoute la valeur de la modification de vie à la vie actuelle
+        """Applique les changements de vie et d'inventaire."""
+        life += (
+            self.update_life
+        )  # On ajoute la valeur de la modification de vie à la vie actuelle
         life = min(life, 100)  # On limite la vie à 100
         # Pour chaque item dans le dictionnaire des changements d'inventaire
         for item, count in self.update_inventory.items():
@@ -36,12 +41,14 @@ class Node:
         return life, inventory
 
     def is_valid_choice(self, choice_number):
-        ''' Retourne True si le choix est valide, False sinon. '''
-        return choice_number in self.choices  # On vérifie si le choix est dans la liste des choix possibles
+        """Retourne True si le choix est valide, False sinon."""
+        return (
+            choice_number in self.choices
+        )  # On vérifie si le choix est dans la liste des choix possibles
 
 
 def get_user_choice():
-    '''Demande à l'utilisateur de choisir un numéro de choix et le retourne.'''
+    """Demande à l'utilisateur de choisir un numéro de choix et le retourne."""
     while True:
         try:
             choice = int(input("Entrez le numéro de votre choix: "))
@@ -56,7 +63,8 @@ def get_user_choice():
 # Final nodes
 end_node = Node("Fin de l'histoire. Vous êtes mort.")
 escape_node = Node(
-    "Félicitations ! Vous avez réussi à quitter l'île et vous êtes sauvé. Fin de l'histoire.")
+    "Félicitations ! Vous avez réussi à quitter l'île et vous êtes sauvé. Fin de l'histoire."
+)
 
 
 build_raft = Node(
@@ -123,12 +131,10 @@ explore_island = Node(
     Que faites-vous ? \n\
         [1] Vous partez en direction de la forêt, en affrontant les dangers qui s'y trouvent. \n\
         [2] Vous suivez la plage pour explorer les environs, en évitant les zones dangereuses."
-
 )
 
 
 build_shelter = Node(
-
     "Vous décidez de construire un abri pour vous protéger, mais vous vous rendez compte que les matériaux sont limités. \n\
     Que faites-vous ensuite ? \n\
         [1] Vous partez à la recherche de nourriture, en prenant des risques pour trouver des ressources. \n\
@@ -142,7 +148,6 @@ root = Node(
     Que faites-vous ? \n\
         [1] Fouiller le corps du pilote pour récupérer des objets \n\
         [2] Fouiller les colis sur la plage pour récupérer des objets \n",
-
 )
 
 # Liaison des choix
@@ -197,13 +202,17 @@ build_raft.update_life = -10
 
 
 def display_story(node, life, inventory):
-    '''Affiche l'histoire en fonction des choix de l'utilisateur'''
+    """Affiche l'histoire en fonction des choix de l'utilisateur"""
     while node is not None:
-        print("\n" + "="*60)  # soulignement du titre
+        print("\n" + "=" * 60)  # soulignement du titre
         print(node.getText())  # affichage du texte du noeud
-        print("-"*60)  # ligne de séparation
+        print("-" * 60)  # ligne de séparation
         print(f"Vie: {life}")
-        print(f"Inventaire: {inventory}")
+        inventory_lst = [(value, key) for key, value in inventory.items()]
+        inventory_str = ""
+        for i in inventory_lst:
+            inventory_str += f"{i[0]} {i[1]}, "
+        print(f"Inventaire: {inventory_str}")
 
         if life <= 0:
             print("\nVous n'avez plus de vie. Fin de l'histoire.")
@@ -214,7 +223,8 @@ def display_story(node, life, inventory):
         # vérification de la validité du choix
         while not node.is_valid_choice(choice):
             print(
-                "\nErreur : choix non valide. Veuillez entrer un numéro d'option valide.")
+                "\nErreur : choix non valide. Veuillez entrer un numéro d'option valide."
+            )
             choice = get_user_choice()  # choix de l'utilisateur
         # mise à jour de la vie et de l'inventaire
         life, inventory = node.apply_changes(life, inventory)
@@ -222,7 +232,7 @@ def display_story(node, life, inventory):
 
 
 def tree_size_height_arity(node):
-    '''Retourne la taille, la hauteur et l'arité de l'arbre'''
+    """Retourne la taille, la hauteur et l'arité de l'arbre"""
     if node is None:
         return 0, 0, 0
 
@@ -232,8 +242,7 @@ def tree_size_height_arity(node):
     max_arity = len(node.choices)
 
     for _, child_node in node.choices.items():  # parcours des enfants
-        child_size, child_height, child_arity = tree_size_height_arity(
-            child_node)
+        child_size, child_height, child_arity = tree_size_height_arity(child_node)
         # taille de l'arbre = taille de l'arbre courant + taille des enfants
         total_size += child_size
         # hauteur de l'arbre = hauteur de l'arbre courant + hauteur des enfants
@@ -245,13 +254,15 @@ def tree_size_height_arity(node):
 
 
 # Calcul et affichage de la taille, la hauteur et l'arité de l'arbre
-size, height, arity = tree_size_height_arity(root) # appel de la fonction
-print(f"La taille de l'arbre est {size}, sa hauteur est {height} et son arité est {arity}.\n")
+size, height, arity = tree_size_height_arity(root)  # appel de la fonction
+print(
+    f"La taille de l'arbre est {size}, sa hauteur est {height} et son arité est {arity}.\n"
+)
 
 
 # Initialisez la vie et l'inventaire
 initial_life = 50
-initial_inventory = {} 
+initial_inventory = {}
 
 # Lancement de l'histoire
 if __name__ == "__main__":
@@ -266,20 +277,27 @@ if __name__ == "__main__":
         # Boucle principale pour gérer les choix de l'utilisateur
         choice = input("Entrez le numéro de votre choix: ")
         if choice == "1":
-            display_story(root, initial_life, initial_inventory) # affichage de l'histoire
+            display_story(
+                root, initial_life, initial_inventory
+            )  # affichage de l'histoire
         elif choice == "2":
             print("\n=== RÈGLES DU JEU ===")
-            print("Le but de jeu est de survivre sur une île déserte. Vous devez faire des choix qui vous permettront de survivre. Vous pouvez choisir entre plusieurs options. Chaque option a un impact sur votre vie et votre inventaire. Si votre vie tombe à 0, vous mourrez. Si vous trouvez un trésor, vous gagnez la partie.")
+            print(
+                "Le but de jeu est de survivre sur une île déserte. Vous devez faire des choix qui vous permettront de survivre. Vous pouvez choisir entre plusieurs options. Chaque option a un impact sur votre vie et votre inventaire. Si votre vie tombe à 0, vous mourrez. Si vous trouvez un trésor, vous gagnez la partie."
+            )
         elif choice == "3":
             print("\n=== CRÉDITS ===")
             print("Développé par : Nicolas Salacroup et Eric Hubert")
             print("Version : 1.0")
         elif choice == "4":
             print("\nOuverture du dépôt GitHub...")
-            webbrowser.open("https://github.com/justniicolas/choice_game") # ouverture du dépôt GitHub
+            webbrowser.open(
+                "https://github.com/justniicolas/choice_game"
+            )  # ouverture du dépôt GitHub
         elif choice == "5":
             print("\nMerci d'avoir joué !")
             break
         else:
             print(
-                "\nErreur : choix non valide. Veuillez entrer un numéro d'option valide.")
+                "\nErreur : choix non valide. Veuillez entrer un numéro d'option valide."
+            )

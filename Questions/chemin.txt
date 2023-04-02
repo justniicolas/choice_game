@@ -3,7 +3,7 @@
     │   ├── meet_other_survivors
     │   │   ├── build_raft
     │   │   │   ├── escape_node
-    │   │   │   └── end_node
+    │   │   │   └── explore_island (loop)
     │   │   └── rescue_plane
     │   │       ├── escape_node
     │   │       └── end_node
@@ -15,7 +15,7 @@
     │       │   │   │   └── rescue_plane (loop)
     │       │   │   └── signal_fire
     │       │   │       ├── escape_node
-    │       │   │       └── end_node
+    │       │   │       └── explore_island
     │       │   └── meet_other_survivors (loop)
     │       └── wild_animal_encounter
     │           ├── meet_other_survivors (loop)
