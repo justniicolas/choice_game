@@ -60,7 +60,9 @@ player = Player()
 
 
 # Final nodes
-end_node = Node("Fin de l'histoire. Vous êtes mort.")
+end_node = Node(
+    "Malheureusement, votre aventure s'arrête ici. Vous n'avez pas survécu. Fin de l'histoire"
+)
 escape_node = Node(
     "Félicitations ! Vous avez réussi à quitter l'île et vous êtes sauvé. Fin de l'histoire."
 )
@@ -165,7 +167,7 @@ find_map.setChoice(2, signal_fire)
 discover_cave.setChoice(1, wild_animal_encounter)
 discover_cave.setChoice(2, signal_fire)
 
-wild_animal_encounter.setChoice(1, meet_other_survivors)
+wild_animal_encounter.setChoice(1, end_node)
 wild_animal_encounter.setChoice(2, rescue_plane)
 
 meet_other_survivors.setChoice(1, build_raft)
@@ -200,6 +202,28 @@ build_raft.update_inventory = {"bois": 10, "corde": 5, "voile": 1}
 build_raft.update_life = -10
 
 current: Node = root
+
+# methode permettant de couper la question en plusieurs lignes
+def wrap_text(text, font, max_width):
+    lines = []
+    text = text.split("[")
+    if font.size(text[0])[0] <= max_width:  # Si le texte tient sur une ligne
+        lines.append(text)  # On ajoute la ligne
+    else:
+        words = text[0].split(" ")  # On découpe le texte en mots
+        i = 0  # Compteur de mots
+        while i < len(words):  # Tant qu'on a pas parcouru tous les mots
+            line = ""  # On initialise la ligne
+            while (
+                i < len(words) and font.size(line + words[i])[0] <= max_width
+            ):  # Tant qu'on a pas parcouru tous les mots et que la ligne ne dépasse pas la largeur max
+                line = line + words[i] + " "  # On ajoute le mot à la ligne
+                i += 1  # On passe au mot suivant
+            if not line:  # Si la ligne est vide
+                line = words[i]  # On ajoute le mot quand même
+                i += 1  # On passe au mot suivant
+            lines.append(line)  # On ajoute la ligne à la liste des lignes
+    return lines  # On retourne la liste des lignes
 
 
 # Couleurs
@@ -267,7 +291,7 @@ button_repo = pg.Rect(
 text_repo = font.render("Code source", True, WHITE)
 text_rect_repo = text_repo.get_rect(center=button_repo.center)
 
-# TODO Bouton pour afficher les regles
+# Bouton pour afficher les regles
 button_rules = pg.Rect(
     button_x,
     button_y + 2 * (button_height + button_margin),
@@ -287,8 +311,17 @@ button_quit = pg.Rect(
 text_quit = font.render("Quitter le jeu", True, WHITE)
 text_rect_quit = text_quit.get_rect(center=button_quit.center)
 
-text_menu = font.render("Menu", True, WHITE)
-text_rect_menu = text_menu.get_rect(center=(WINDOW_WIDTH / 2, 200))
+button_menu = pg.Rect(
+    button_x,
+    button_y + 3 * (button_height + button_margin),
+    button_width,
+    button_height,
+)
+text_menu = font.render("Commencer le jeu", True, WHITE)
+text_rect_menu = text_menu.get_rect(center=(button_menu.center))
+
+titre_menu = font.render("Menu", True, WHITE)
+titre_rect_menu = titre_menu.get_rect(center=(WINDOW_WIDTH / 2, 200))
 
 # Variable pour stocker le choix de l'utilisateur
 menu_choice = None
@@ -315,6 +348,9 @@ while menu_choice is None:
             elif button_repo.collidepoint(mouse_pos):
                 webbrowser.open("https://github.com/justniicolas/choice_game")
 
+            elif button_rules.collidepoint(mouse_pos):
+                menu_choice = "rules"
+
     # Couleur de fond de la fenêtre
     window.fill(GRAY)
 
@@ -331,7 +367,7 @@ while menu_choice is None:
     pg.draw.rect(window, DARK_GRAY, button_rules, 2, 3)
     window.blit(text_rules, text_rect_rules)
 
-    window.blit(text_menu, text_rect_menu)
+    window.blit(titre_menu, titre_rect_menu)
 
     # Mise à jour de la fenêtre
     pg.display.flip()
@@ -340,8 +376,46 @@ while menu_choice is None:
 if menu_choice == "quit":
     pg.quit()
     exit()
+in_rules = False
+if menu_choice == "rules":
+    in_rules = True
 
-# Boucle d'événements
+while in_rules:
+    for event in pg.event.get():
+        # Gestion de la fermeture de la fenêtre
+        if event.type == pg.QUIT:
+            pg.quit()
+
+        window.fill(GRAY)
+        pg.draw.rect(window, DARK_GRAY, button_menu, 2, 3)
+        window.blit(text_menu, text_rect_menu, special_flags=pg.BLEND_ALPHA_SDL2)
+
+        lines = wrap_text(
+            "Le but de jeu est de survivre sur une île déserte. Vous devez faire des choix qui vous permettront de survivre. Vous pouvez choisir entre plusieurs options. Chaque option a un impact sur la suite de l'histoire. Votre but est de faire les bons choix afin de quitter l'île en vie, mais attention, vous devrez faire face à de nombreux dangers...",
+            font,
+            500,
+        )
+        y_text = 200  # On place le texte au dessus des boutons
+        for line in lines:
+            if not isinstance(line, str):
+                line = line[0]
+            text = font.render(line, True, WHITE)
+            text_rect = text.get_rect(
+                center=(WINDOW_WIDTH / 2, y_text)
+            )  # Création du rectangle englobant
+            window.blit(text, text_rect)
+            y_text += 30  # On décale le texte d'une ligne
+        pg.display.flip()
+
+        if event.type == pg.MOUSEBUTTONDOWN:
+            mouse_pos = event.pos
+
+            # Si le bouton gauche est cliqué
+            if button_menu.collidepoint(mouse_pos):
+                in_rules = False
+
+
+# Boucle d'événements (histoire)
 running = True
 while running:
     for event in pg.event.get():
@@ -367,28 +441,6 @@ while running:
 
     # Couleur de fond de la fenêtre
     window.fill(GRAY)
-
-    # methode permettant de couper la question en plusieurs lignes
-    def wrap_text(text, font, max_width):
-        lines = []
-        text = text.split("[")
-        if font.size(text[0])[0] <= max_width:  # Si le texte tient sur une ligne
-            lines.append(text)  # On ajoute la ligne
-        else:
-            words = text[0].split(" ")  # On découpe le texte en mots
-            i = 0  # Compteur de mots
-            while i < len(words):  # Tant qu'on a pas parcouru tous les mots
-                line = ""  # On initialise la ligne
-                while (
-                    i < len(words) and font.size(line + words[i])[0] <= max_width
-                ):  # Tant qu'on a pas parcouru tous les mots et que la ligne ne dépasse pas la largeur max
-                    line = line + words[i] + " "  # On ajoute le mot à la ligne
-                    i += 1  # On passe au mot suivant
-                if not line:  # Si la ligne est vide
-                    line = words[i]  # On ajoute le mot quand même
-                    i += 1  # On passe au mot suivant
-                lines.append(line)  # On ajoute la ligne à la liste des lignes
-        return lines  # On retourne la liste des lignes
 
     # TODO Affichage de la barre de vie ?
     # health = player.get_health()

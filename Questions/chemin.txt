@@ -11,13 +11,13 @@
     │       ├── find_map
     │       │   ├── discover_cave
     │       │   │   ├── wild_animal_encounter
-    │       │   │   │   ├── meet_other_survivors (loop)
+    │       │   │   │   ├── end_node
     │       │   │   │   └── rescue_plane (loop)
     │       │   │   └── signal_fire
     │       │   │       ├── escape_node
     │       │   │       └── explore_island
     │       │   └── meet_other_survivors (loop)
     │       └── wild_animal_encounter
-    │           ├── meet_other_survivors (loop)
+    │           ├── end_node
     │           └── rescue_plane (loop)
     └── explore_island (loop)
