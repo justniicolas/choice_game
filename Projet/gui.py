@@ -5,12 +5,13 @@ import pygame as pg
 class Node:
     """Classe représentant un noeud de l'arbre de décision."""
 
-    def __init__(self, text, update_life=0, update_inventory=None):
+    def __init__(self, text, image="root.jfif", update_life=0, update_inventory=None):
         """Constructeur de la classe Node."""
         self.text = text
         self.choices = {}
         self.update_life = update_life
         self.update_inventory = update_inventory or {}
+        self.image = image
 
     def setChoice(self, choice_number, next_node):
         """Ajoute un choix à la liste des choix possibles."""
@@ -21,6 +22,10 @@ class Node:
     def getText(self):
         """Retourne le texte du noeud."""
         return self.text  # On retourne le texte du noeud
+
+    def getImage(self):
+        """Retourne le nom de l'image associée à la question"""
+        return self.image
 
     def getNextNode(self, choice_number):
         """Retourne le noeud suivant en fonction du choix de l'utilisateur."""
@@ -61,10 +66,12 @@ player = Player()
 
 # Final nodes
 end_node = Node(
-    "Malheureusement, votre aventure s'arrête ici. Vous n'avez pas survécu. Fin de l'histoire"
+    "Malheureusement, votre aventure s'arrête ici. Vous n'avez pas survécu. Fin de l'histoire",
+    "death.jfif",
 )
 escape_node = Node(
-    "Félicitations ! Vous avez réussi à quitter l'île et vous êtes sauvé. Fin de l'histoire."
+    "Félicitations ! Vous avez réussi à quitter l'île et vous êtes sauvé. Fin de l'histoire.",
+    "escape.jfif",
 )
 
 
@@ -73,7 +80,8 @@ build_raft = Node(
     L'île semble être entourée de requins. \
     Que faites-vous ? \
         [1] Vous construisez un radeau solide et tentez de naviguer en évitant les requins. \
-        [2] Vous abandonnez l'idée du radeau et cherchez d'autres moyens de quitter l'île."
+        [2] Vous abandonnez l'idée du radeau et cherchez d'autres moyens de quitter l'île.",
+    "raft.jfif",
 )
 
 
@@ -81,7 +89,8 @@ signal_fire = Node(
     "Vous avez réussi à allumer un feu de détresse, mais la pluie commence à tomber. \
     Que faites-vous ? \
         [1] Vous protégez le feu avec votre corps et espérez que l'avion vous voit. \
-        [2] Vous abandonnez le feu et essayez de trouver un autre moyen de signaler votre présence."
+        [2] Vous abandonnez le feu et essayez de trouver un autre moyen de signaler votre présence.",
+    "fire.jfif",
 )
 
 
@@ -95,27 +104,31 @@ rescue_plane = Node(
     "Vous apercevez un avion de secours au loin. \
     Que faites-vous ? \
         [1] Vous utilisez un miroir pour refléter la lumière du soleil et attirer l'attention de l'avion. \
-        [2] Vous allumez un feu de détresse sur la plage pour signaler votre présence."
+        [2] Vous allumez un feu de détresse sur la plage pour signaler votre présence.",
+    "plane.jfif",
 )
 
 wild_animal_encounter = Node(
     "Vous êtes confronté à un animal sauvage, et votre couteau se brise pendant le combat. \
     Que faites-vous ? \
         [1] Vous utilisez vos compétences en arts martiaux pour combattre l'animal. \
-        [2] Vous essayez de fuir et de trouver un endroit sûr pour vous cacher."
+        [2] Vous essayez de fuir et de trouver un endroit sûr pour vous cacher.",
+    "bear.jfif",
 )
 meet_other_survivors = Node(
     "Vous rencontrez d'autres survivants sur l'île. \
     Que faites-vous ? \
         [1] Vous décidez de travailler ensemble pour trouver un moyen de quitter l'île. \
-        [2] Vous continuez à explorer l'île seul."
+        [2] Vous continuez à explorer l'île seul.",
+    "people.jfif",
 )
 
 discover_cave = Node(
     "Vous découvrez une mystérieuse grotte qui semble mener à un réseau souterrain. \
     Que faites-vous ? \
         [1] Vous explorez prudemment le réseau souterrain, en suivant les marques laissées par d'autres explorateurs. \
-        [2] Vous décidez que le réseau souterrain est trop dangereux et continuez à chercher un moyen de quitter l'île."
+        [2] Vous décidez que le réseau souterrain est trop dangereux et continuez à chercher un moyen de quitter l'île.",
+    "cave.jfif",
 )
 
 
@@ -123,7 +136,8 @@ find_map = Node(
     "Vous trouvez une carte qui semble indiquer la présence d'un trésor caché, mais elle est partiellement détruite. \
     Que faites-vous ? \
         [1] Vous essayez de déchiffrer la carte et de suivre les indices restants. \
-        [2] Vous ignorez la carte et continuez à chercher un moyen de quitter l'île."
+        [2] Vous ignorez la carte et continuez à chercher un moyen de quitter l'île.",
+    "map.jfif",
 )
 
 
@@ -131,7 +145,8 @@ explore_island = Node(
     "Vous décidez d'explorer l'île, mais vous découvrez que le terrain est difficile et dangereux. \
     Que faites-vous ? \
         [1] Vous partez en direction de la forêt, en affrontant les dangers qui s'y trouvent. \
-        [2] Vous suivez la plage pour explorer les environs, en évitant les zones dangereuses."
+        [2] Vous suivez la plage pour explorer les environs, en évitant les zones dangereuses.",
+    "explore.jfif",
 )
 
 
@@ -139,7 +154,8 @@ build_shelter = Node(
     "Vous décidez de construire un abri pour vous protéger, mais vous vous rendez compte que les matériaux sont limités. \
     Que faites-vous ensuite ? \
         [1] Vous partez à la recherche de nourriture, en prenant des risques pour trouver des ressources. \
-        [2] Vous explorez l'île pour en savoir plus sur votre situation, malgré les dangers potentiels."
+        [2] Vous explorez l'île pour en savoir plus sur votre situation, malgré les dangers potentiels.",
+    "shelter.jfif",
 )
 
 
@@ -233,7 +249,7 @@ GRAY = (128, 128, 128)
 DARK_GRAY = (64, 64, 64)
 
 # Taille de la fenêtre
-WINDOW_WIDTH = 1200
+WINDOW_WIDTH = 1400
 WINDOW_HEIGHT = 600
 
 # Initialisation de pygame
@@ -250,7 +266,7 @@ font = pg.font.Font(None, 30)
 button_width = 200
 button_height = 50
 button_margin = 10
-button_x = (WINDOW_WIDTH - button_width) / 2  # On centre le bouton
+button_x = (WINDOW_WIDTH + 800 - button_width) / 2  # On centre le bouton
 button_y = (
     WINDOW_HEIGHT - (5 * button_height + button_margin)
 ) - 50  # On place le bouton en bas de la fenêtre
@@ -405,7 +421,6 @@ while in_rules:
             )  # Création du rectangle englobant
             window.blit(text, text_rect)
             y_text += 30  # On décale le texte d'une ligne
-        pg.display.flip()
 
         if event.type == pg.MOUSEBUTTONDOWN:
             mouse_pos = event.pos
@@ -413,6 +428,8 @@ while in_rules:
             # Si le bouton gauche est cliqué
             if button_menu.collidepoint(mouse_pos):
                 in_rules = False
+
+        pg.display.flip()
 
 
 # Boucle d'événements (histoire)
@@ -449,6 +466,10 @@ while running:
 
     # affcihage de la question
     if current.getText() is not None:
+
+        image = pg.image.load(current.getImage())
+        window.blit(image, (0, 0))
+
         button_y = 450
         lines = wrap_text(
             current.getText(), font, 500
@@ -459,19 +480,22 @@ while running:
                 line = line[0]
             text = font.render(line, True, WHITE)
             text_rect = text.get_rect(
-                center=(WINDOW_WIDTH / 2, y_text)
+                center=(WINDOW_WIDTH / 2 + 400, y_text)
             )  # Création du rectangle englobant
             window.blit(text, text_rect)
             y_text += 30  # On décale le texte d'une ligne
         y_text += 60
         possible_choices = current.getText().split("[")
         for choice in possible_choices[1::]:
-            text = font.render("[" + choice, True, WHITE)
-            text_rect = text.get_rect(
-                center=(WINDOW_WIDTH / 2, y_text)
-            )  # Création du rectangle englobant
-            window.blit(text, text_rect)
-            y_text += 45
+            for line in wrap_text(choice, font, 500):
+                if not isinstance(line, str):
+                    line = line[0]
+                text = font.render(line, True, WHITE)
+                text_rect = text.get_rect(
+                    center=(WINDOW_WIDTH / 2 + 400, y_text)
+                )  # Création du rectangle englobant
+                window.blit(text, text_rect)
+                y_text += 45
     else:
         text = font.render("yo", True, WHITE)
         text_rect = text.get_rect(center=(WINDOW_WIDTH / 2, 500))
