@@ -62,6 +62,7 @@ class Player:
 
 
 player = Player()
+# ! La classe Player n'est pas utilisée dans cette version
 
 
 # Final nodes
@@ -217,6 +218,9 @@ rescue_plane.update_life = -5
 build_raft.update_inventory = {"bois": 10, "corde": 5, "voile": 1}
 build_raft.update_life = -10
 
+# ! Ces données ne sont pas utilisées dans cette version
+
+# * On initialise la variable current au premier Node
 current: Node = root
 
 # methode permettant de couper la question en plusieurs lignes
@@ -327,6 +331,7 @@ button_quit = pg.Rect(
 text_quit = font.render("Quitter le jeu", True, WHITE)
 text_rect_quit = text_quit.get_rect(center=button_quit.center)
 
+# Bouton pour retourner au menu
 button_menu = pg.Rect(
     button_x,
     button_y + 3 * (button_height + button_margin),
@@ -361,9 +366,11 @@ while menu_choice is None:
             elif button_quit.collidepoint(mouse_pos):
                 menu_choice = "quit"
 
+            # Si le bouton pour ouvrir le repo est cliqué
             elif button_repo.collidepoint(mouse_pos):
                 webbrowser.open("https://github.com/justniicolas/choice_game")
 
+            # Si le bouton des règles est cliqué
             elif button_rules.collidepoint(mouse_pos):
                 menu_choice = "rules"
 
@@ -459,7 +466,7 @@ while running:
     # Couleur de fond de la fenêtre
     window.fill(GRAY)
 
-    # TODO Affichage de la barre de vie ?
+    # ? Affichage de la barre de vie ?
     # health = player.get_health()
     # print(health)
     # * Bon on le fera peut-être après jsp
@@ -497,7 +504,7 @@ while running:
                 window.blit(text, text_rect)
                 y_text += 45
     else:
-        text = font.render("yo", True, WHITE)
+        text = font.render("debug", True, WHITE)
         text_rect = text.get_rect(center=(WINDOW_WIDTH / 2, 500))
         window.blit(text, text_rect)
 
